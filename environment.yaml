@@ -9,6 +9,7 @@ dependencies:
       - wandb
       - transformers
       - datasets
+      - git-filter-repo
       - torch
       - tensorflow
       - matplotlib
