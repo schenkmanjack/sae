@@ -1,0 +1,14 @@
+name: sae
+channels:
+  - defaults
+dependencies:
+  - python=3.9  # Adjust version as needed
+  - pip
+  - cudatoolkit=11.3  # Replace with a compatible version
+  - pip:
+      - wandb
+      - transformers
+      - datasets
+      - torch
+      - tensorflow
+      - matplotlib
