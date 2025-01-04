@@ -7,7 +7,7 @@ from torch.utils.data import TensorDataset, DataLoader
 from utils import prepare_text_data
 from models import SparseAutoencoder
 from experiments import SAEBaseExperiment
-from mixins import LogLoss, LogSparseFeatures, LogDeadNeurons
+from mixins import LogLoss, LogSparseFeatures, LogDeadNeurons, LogRecoveredLoss
 
 
 
@@ -20,7 +20,7 @@ config = dict(
     log_wandb=True,
     hidden_size = int(input_size * overcompleteness),
     lr = 1e-4,
-    batch_size = 256,
+    batch_size = 128,
     sparsity_weight = 1e-4,
     num_samples=800000,
     sae_save_path=sae_save_path,
@@ -35,7 +35,7 @@ config = dict(
     ),
 )
 
-class ExperimentClass(LogLoss, LogSparseFeatures, LogDeadNeurons, SAEBaseExperiment):
+class ExperimentClass(LogRecoveredLoss, LogLoss, LogSparseFeatures, LogDeadNeurons, SAEBaseExperiment):
     pass
 
 experiment = ExperimentClass(config)
