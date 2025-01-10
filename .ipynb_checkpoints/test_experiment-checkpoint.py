@@ -15,17 +15,21 @@ overcompleteness = 10
 input_size = 768
 sae_save_path = 'snapshots/sae.pth'
 config = dict(
-    input_size = input_size,
     overcompleteness = overcompleteness,
     log_wandb=True,
-    hidden_size = int(input_size * overcompleteness),
     lr = 1e-4,
     batch_size = 128,
-    sparsity_weight = 1e-4,
+    model_config=dict(
+        input_size = input_size,
+        hidden_size = int(input_size * overcompleteness),
+        sparsity_weight = 1e-4,
+        use_auxiliary_loss = True,
+        auxiliary_loss_weight = 0.1
+    ),
     num_samples=800000,
     sae_save_path=sae_save_path,
     epochs = 1000000,
-    results_dir = 'results_2',
+    results_dir = 'results_1',
     wandb_config = dict(
         project_name="gpt-2-sae"
     ),

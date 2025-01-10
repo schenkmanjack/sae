@@ -35,7 +35,7 @@ def prepare_text_data(model_name='gpt2', num_samples=4, batch_size=16):
     # dataset = load_dataset('bookcorpus', split='train', trust_remote_code=True)
     # texts = dataset['text'][:num_samples]
 
-    dataset = load_dataset('bookcorpus', split='train', streaming=True)
+    dataset = load_dataset('bookcorpus', split='train', trust_remote_code="True", streaming=True)
     # Efficiently fetch only the first 1000 samples
     texts = []
     num_samples = 1000

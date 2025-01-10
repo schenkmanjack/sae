@@ -12,16 +12,12 @@ from models import SparseAutoencoder
 class SAEBaseExperiment:
     def __init__(self, config):
         self.config = config
-        self.input_size = config['input_size']
-        self.hidden_size = config['hidden_size']
-        self.num_samples = config.get("num_samples", 20)
         self.lr = config['lr']
+        self.num_samples = config.get("num_samples", 20)
         self.batch_size = config['batch_size']
-        self.sparsity_weight = config['sparsity_weight']
         self.epochs = config['epochs']
         self.results_dir = config.get("results_dir", "results")
         self.model_path = config.get("model_path", None)
-        self.overcompleteness = config['overcompleteness']
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         # setup wandb
         self.log_wandb = self.config.get("log_wandb", False)
@@ -29,7 +25,11 @@ class SAEBaseExperiment:
             wandb_config = self.config.get("wandb_config", dict())
             self.wandb = wandb.init(project=wandb_config.get("project_name", "gpt-2-sae"), config=config)
         # create SAE
-        self.sparse_autoencoder = SparseAutoencoder(self.input_size, self.hidden_size, self.sparsity_weight)
+        self.model_config = self.config.get("model_config", dict())
+        self.input_size = self.model_config['input_size']
+        self.hidden_size = self.model_config['hidden_size']
+        self.sparsity_weight = self.model_config['sparsity_weight']
+        self.sparse_autoencoder = SparseAutoencoder(config=self.model_config)
         load_sae = self.config.get("load_sae", False)
         if load_sae:
             self.sparse_autoencoder.load_state_dict(torch.load(self.model_path))
